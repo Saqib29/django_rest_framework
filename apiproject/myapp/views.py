@@ -1,27 +1,3 @@
-from django.shortcuts import render
-
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from myapp.models import Contact
-from myapp.serializers import ContactSerializer
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.http import Http404
-from rest_framework.views import APIView
-from rest_framework import mixins
-from rest_framework import generics
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.reverse import reverse
-
-
-@api_view(['GET'])
-def api_root(request, format=None):
-    return Response({
-        'contact': reverse('contact-list', request=request, format=format)
-    })
 
 
 
@@ -30,32 +6,80 @@ def api_root(request, format=None):
 
 
 
-class ContactList(generics.ListCreateAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
 
-    # authentication_classes = [SessionAuthentication, BasicAuthentication]
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        return self.list(request)
 
-    def post(self, request):
-        return self.craete(request)
 
-class ContactDetail(generics.RetrieveUpdateDestroyAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request)
+
+
+
+
+
+
+
+
+
+
+# from django.shortcuts import render
+
+# from django.http import HttpResponse, JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from rest_framework.parsers import JSONParser
+# from myapp.models import Contact
+# from myapp.serializers import ContactSerializer
+# from rest_framework import status
+# from rest_framework.decorators import api_view
+# from rest_framework.response import Response
+# from django.http import Http404
+# from rest_framework.views import APIView
+# from rest_framework import mixins
+# from rest_framework import generics
+# from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework.reverse import reverse
+
+
+# @api_view(['GET'])
+# def api_root(request, format=None):
+#     return Response({
+#         'contact': reverse('contact-list', request=request, format=format)
+#     })
+
+
+
+
+
+
+
+
+# class ContactList(generics.ListCreateAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+#     queryset = Contact.objects.all()
+#     serializer_class = ContactSerializer
+
+#     # authentication_classes = [SessionAuthentication, BasicAuthentication]
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request):
+#         return self.list(request)
+
+#     def post(self, request):
+#         return self.craete(request)
+
+# class ContactDetail(generics.RetrieveUpdateDestroyAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+#     queryset = Contact.objects.all()
+#     serializer_class = ContactSerializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request)
+
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request)
     
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request)
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request)
 
 # Create your views here.
 # class BlogList(APIView):
