@@ -14,44 +14,67 @@ from rest_framework import mixins
 from rest_framework import generics
 
 
+class ContactList(generics.ListCreateAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.craete(request)
+
+class ContactDetail(generics.RetrieveUpdateDestroyAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request)
+
 # Create your views here.
-class BlogList(APIView):
-    def get(self, request, format=None):
-        snippet = Contact.objects.all()
-        serializer = ContactSerializer(snippet, many=True)
-        return Response(serializer.data)
+# class BlogList(APIView):
+#     def get(self, request, format=None):
+#         snippet = Contact.objects.all()
+#         serializer = ContactSerializer(snippet, many=True)
+#         return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = ContactSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, request, format=None):
+#         serializer = ContactSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ApiDetails(APIView):
-    def get_object(self, pk):
-        try:
-            return Contact.objects.get(pk=pk)
-        except Contact.DoesNotExist:
-            raise Http404
+# class ApiDetails(APIView):
+#     def get_object(self, pk):
+#         try:
+#             return Contact.objects.get(pk=pk)
+#         except Contact.DoesNotExist:
+#             raise Http404
 
-    def get(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = ContactSerializer(snippet)
-        return Response(serializer.data)
+#     def get(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         serializer = ContactSerializer(snippet)
+#         return Response(serializer.data)
 
-    def put(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = ContactSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def put(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         serializer = ContactSerializer(snippet, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT) 
+#     def delete(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         snippet.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT) 
 
 
 
