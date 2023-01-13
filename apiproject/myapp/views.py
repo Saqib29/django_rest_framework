@@ -14,6 +14,20 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.reverse import reverse
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'contact': reverse('contact-list', request=request, format=format)
+    })
+
+
+
+
+
+
 
 
 class ContactList(generics.ListCreateAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
